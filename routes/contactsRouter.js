@@ -10,7 +10,6 @@ const {
 
 const schemas = require('../schemas/contactsSchemas');
 const { validateBody } = require('../helpers/validateBody');
-const ctrl = require('../helpers/ctrl');
 
 const contactsRouter = express.Router();
 

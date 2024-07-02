@@ -1,13 +1,15 @@
 const Joi = require('joi');
+const nanoid = require('nanoid');
 
 const createContactSchema = Joi.object({
   name: Joi.string().required(),
-  email: Joi.string().email().required(),
+  email: Joi.string().required(),
   phone: Joi.string().required(),
 });
 const updateContactSchema = Joi.object({
+  id: Joi.string().required(),
   name: Joi.string(),
-  email: Joi.string().email(),
+  email: Joi.string(),
   phone: Joi.string(),
 });
 module.exports = {

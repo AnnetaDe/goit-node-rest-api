@@ -35,7 +35,9 @@ const addContact = async data => {
   const contacts = await listContacts();
   const newContact = {
     id: nanoid(),
-    ...data,
+    name: data.name,
+    email: data.email,
+    phone: data.phone,
   };
   console.log(newContact);
   contacts.push(newContact);
@@ -50,6 +52,8 @@ const updateContact = async (id, data) => {
   }
   contacts[index] = { id, ...data };
   await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+  console.log('update', contacts[index]);
+
   return contacts[index];
 };
 

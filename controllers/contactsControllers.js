@@ -1,10 +1,11 @@
 const contacts = require('../services/contactsServices');
-const ctrl = require('../helpers/ctrl');
-const HttpError = require('../helpers/HttpError');
+const ctrl = require('../helpers/ctrl.js');
+const HttpError = require('../helpers/HttpError.js');
 
 const getAllContacts = async (req, res) => {
   const result = await contacts.listContacts();
   res.json(result);
+  console.log('result', result);
 };
 const getOneContact = async (req, res) => {
   console.log(req);
@@ -23,11 +24,21 @@ const deleteContact = async (req, res) => {
 const createContact = async (req, res) => {
   console.log('reqbodu', req.body);
   const result = await contacts.addContact(req.body);
-  res.status(201).json(result);
+  res.json({
+    status: 'success',
+    code: 201,
+    data: { result },
+  });
 };
 const updateContact = async (req, res) => {
-  const result = await contacts.updateContact(req.body);
-  res.status(201).json(result);
+  const { id } = req.params;
+  const result = await contacts.updateContact(id, req.body);
+  if (!result) {
+    throw HttpError(404, 'Not found');
+  }
+
+  res.json(result);
+  console.log('result', result);
 };
 
 module.exports = {
