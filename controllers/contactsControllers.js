@@ -5,12 +5,9 @@ const HttpError = require('../helpers/HttpError.js');
 const getAllContacts = async (req, res) => {
   const result = await contacts.listContacts();
   res.json(result);
-  console.log('result', result);
 };
 const getOneContact = async (req, res) => {
-  console.log(req);
   const { id } = req.params;
-  console.log(id);
   const result = await contacts.getContactById(id);
   if (!result) {
     throw HttpError(404, 'not found');
@@ -22,7 +19,6 @@ const deleteContact = async (req, res) => {
   const result = await contacts.removeContact(id);
 };
 const createContact = async (req, res) => {
-  console.log('reqbodu', req.body);
   const result = await contacts.addContact(req.body);
   res.json({
     status: 'success',
@@ -38,7 +34,6 @@ const updateContact = async (req, res) => {
   }
 
   res.json(result);
-  console.log('result', result);
 };
 
 module.exports = {
