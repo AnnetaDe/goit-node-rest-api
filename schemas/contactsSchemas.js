@@ -1,5 +1,4 @@
 const Joi = require('joi');
-const nanoid = require('nanoid');
 
 const createContactSchema = Joi.object({
   name: Joi.string().required(),

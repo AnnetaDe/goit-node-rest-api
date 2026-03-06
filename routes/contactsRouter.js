@@ -9,7 +9,7 @@ const {
 } = require('../controllers/contactsControllers');
 
 const schemas = require('../schemas/contactsSchemas');
-const { validateBody } = require('../helpers/validateBody');
+const {validateBody} = require('../helpers/validateBody');
 
 const contactsRouter = express.Router();
 
