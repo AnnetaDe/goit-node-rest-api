@@ -25,9 +25,11 @@ export const current = ctrl(async (req, res) => {
 });
 
 export const updateAvatar = ctrl(async (req, res) => {
-  const avatarURL = await authService.updateUserAvatar(req.user.id, req.file.path);
+  if (!req.file) throw new Error('No file uploaded');
+  const avatarURL = await authService.updateUserAvatar(req.user.id, req.file);
   res.json({avatarURL});
 });
+
 
 export const verifyEmail = ctrl(async (req, res) => {
   const {verificationToken} = req.params;

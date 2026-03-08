@@ -12,7 +12,8 @@ import {
 import {validateBody} from '../helpers/validateBody.js';
 import {authenticate} from '../middlewares/authentificate.js';
 import {upload} from '../middlewares/uploads.js';
-import {emailSchema, loginSchema, registerSchema} from '../schemas/authSchemas.js'; // Multer for avatars
+import {emailSchema, loginSchema, registerSchema} from '../schemas/authSchemas.js';
+import {updateUserAvatar} from '../services/authService.js'; // Multer for avatars
 
 
 const authRouter = express.Router();
@@ -26,6 +27,11 @@ authRouter.post('/verify', validateBody(emailSchema), resendVerification);
 authRouter.post('/logout', authenticate, logout);
 authRouter.get('/current', authenticate, current);
 
-authRouter.patch('/avatars', authenticate, upload.single('avatar'), updateAvatar);
+authRouter.patch(
+  '/avatars',
+  authenticate,
+  upload.single('avatar'),
+  updateAvatar
+);
 
 export default authRouter;

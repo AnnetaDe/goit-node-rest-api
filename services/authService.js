@@ -2,6 +2,8 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import gravatar from 'gravatar';
 import {nanoid} from 'nanoid';
+import fs from "fs/promises";
+import path from 'path';
 import {sequelize} from '../db/sequilize.js';
 import {initUserModel} from '../models/user.js';
 import {HttpError} from '../helpers/HttpError.js';
@@ -94,9 +96,34 @@ export async function getCurrentUser(userId) {
   return user;
 }
 
-export async function updateUserAvatar(userId, avatarURL) {
-  const [updated] = await User.update({avatarURL}, {where: {id: userId}});
+export async function updateUserAvatar(userId, file) {
+  if (!file) throw HttpError(400, 'No file uploaded');
+
+  const tempDir = path.resolve('temp');
+
+  await fs.mkdir(tempDir, { recursive: true });
+  const avatarsDir = path.resolve('public/avatars');
+  await fs.mkdir(tempDir, { recursive: true });
+
+
+  const ext = path.extname(file.originalname);
+  const fileName = `${userId}_${Date.now()}${ext}`;
+  const tempPath = path.join(tempDir, file.originalname);
+
+  await fs.rename(file.path, tempPath);
+
+  const finalPath = path.join(avatarsDir, fileName);
+  await fs.rename(tempPath, finalPath);
+
+  const avatarURL = `/avatars/${fileName}`;
+
+  const [updated] = await User.update(
+    {avatarURL},
+    {where: {id: userId}}
+  );
+
   if (!updated) throw HttpError(404, 'User not found');
+
   return avatarURL;
 }
 
