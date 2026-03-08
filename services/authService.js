@@ -157,6 +157,10 @@ export async function resendVerificationEmail(email) {
     throw HttpError(400, 'Verification has already been passed');
   }
 
+  try {
+    await sendVerifyEmail({email, verificationToken: user.verificationToken});
+  } catch (err) {
+    console.error(`[📧 Email Fail] User: ${email} | Error: ${err.message}`)
+  }
 
-  await sendVerifyEmail({ email, verificationToken: user.verificationToken });
 }
