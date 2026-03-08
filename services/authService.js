@@ -21,19 +21,22 @@ export async function registerUser(email, password) {
   const avatarURL = gravatar.url(email, {s: '250', d: 'identicon'}, true);
   const verificationToken = nanoid();
 
+  const dev = process.env.NODE_ENV !== 'production';
+
   const user = await User.create({
     email,
     password: hashedPassword,
     subscription: 'starter',
     token: null,
     avatarURL,
-    verify: false,
+    verify: dev,
     verificationToken,
   });
 
   sendVerifyEmail(email, verificationToken).catch((err) =>
     console.error(`[📧 Email Fail] User: ${email} | Error: ${err.message}`)
   );
+
 
   return {
     user: {

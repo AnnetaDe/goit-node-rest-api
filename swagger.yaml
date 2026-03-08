@@ -1,0 +1,220 @@
+openapi: 3.0.0
+info:
+  title: goit hw
+  description: hw
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+    description: Local
+
+paths:
+
+  /api/auth/register:
+    post:
+      tags: [Auth]
+      summary: Register user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                  example: user@gmail.com
+                password:
+                  type: string
+                  example: password123
+      responses:
+        201:
+          description: User created
+
+  /api/auth/login:
+    post:
+      tags: [Auth]
+      summary: Login user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                  example: user@gmail.com
+                password:
+                  type: string
+                  example: password123
+      responses:
+        200:
+          description: Logged in
+
+  /api/auth/logout:
+    post:
+      tags: [Auth]
+      summary: Logout user
+      security:
+        - bearerAuth: []
+      responses:
+        204:
+          description: Logged out
+
+  /api/auth/current:
+    get:
+      tags: [Auth]
+      summary: Get current user
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Current user info
+
+  /api/auth/verify/{verificationToken}:
+    get:
+      tags: [Auth]
+      summary: Verify email
+      parameters:
+        - in: path
+          name: verificationToken
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Email verified
+
+  /api/auth/verify:
+    post:
+      tags: [Auth]
+      summary: Resend verification email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email:
+                  type: string
+                  example: user@gmail.com
+      responses:
+        200:
+          description: Verification email sent
+
+  /api/auth/avatars:
+    patch:
+      tags: [Auth]
+      summary: Update avatar
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                avatar:
+                  type: string
+                  format: binary
+      responses:
+        200:
+          description: Avatar updated
+
+  /api/contacts:
+    get:
+      tags: [Contacts]
+      summary: Get all contacts
+      responses:
+        200:
+          description: Contacts list
+
+    post:
+      tags: [Contacts]
+      summary: Create contact
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, phone]
+              properties:
+                name:
+                  type: string
+                  example: John
+                email:
+                  type: string
+                  example: john@gmail.com
+                phone:
+                  type: string
+                  example: "+380123456789"
+      responses:
+        201:
+          description: Contact created
+
+  /api/contacts/{id}:
+    get:
+      tags: [Contacts]
+      summary: Get contact by id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Contact found
+
+    patch:
+      tags: [Contacts]
+      summary: Update contact
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                phone:
+                  type: string
+      responses:
+        200:
+          description: Contact updated
+
+    delete:
+      tags: [Contacts]
+      summary: Delete contact
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: Contact deleted
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
