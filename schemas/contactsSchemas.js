@@ -1,17 +1,15 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
-const createContactSchema = Joi.object({
-  name: Joi.string().required(),
-  email: Joi.string().required(),
+export const createContactSchema = Joi.object({
+  name: Joi.string().min(3).max(30).required(),
+  email: Joi.string().email().required(),
   phone: Joi.string().required(),
+  favorite: Joi.boolean().default(false)
 });
-const updateContactSchema = Joi.object({
-  id: Joi.string().required(),
-  name: Joi.string(),
-  email: Joi.string(),
+
+export const updateContactSchema = Joi.object({
+  name: Joi.string().min(3).max(30),
+  email: Joi.string().email(),
   phone: Joi.string(),
-});
-module.exports = {
-  createContactSchema,
-  updateContactSchema,
-};
+  favorite: Joi.boolean(),
+}).min(1).messages({'object.min': "Body must have at least one field" });

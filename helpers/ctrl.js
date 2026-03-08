@@ -1,4 +1,4 @@
-const ctrl = ctrl => {
+export const ctrl = ctrl => {
   return async (req, res, next) => {
     try {
       await ctrl(req, res, next);
@@ -8,4 +8,3 @@ const ctrl = ctrl => {
   };
 };
 
-module.exports = ctrl;

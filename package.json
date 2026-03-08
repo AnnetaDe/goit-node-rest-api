@@ -1,18 +1,29 @@
 {
   "name": "goit-node-rest-api",
   "main": "app.js",
+  "type": "module",
   "scripts": {
     "start": "node ./app.js",
-    "dev": "nodemon ./app.js"
+    "dev": "nodemon -r dotenv/config app.js"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
+    "dotenv": "^17.3.1",
+    "gravatar": "^1.8.2",
     "joi": "^17.11.0",
-    "morgan": "^1.10.0"
+    "jsonwebtoken": "^9.0.3",
+    "morgan": "^1.10.0",
+    "multer": "^2.1.1",
+    "nodemailer": "^8.0.1",
+    "path": "^0.12.7",
+    "pg": "^8.20.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.7"
   },
   "devDependencies": {
     "express": "^4.19.2",
-    "nodemon": "^3.0.2",
-    "nanoid": "^3.3.7"
+    "nanoid": "^3.3.7",
+    "nodemon": "^3.0.2"
   }
 }
