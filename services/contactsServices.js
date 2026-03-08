@@ -13,7 +13,7 @@ export const removeContact = async (id) => {
   const contact = await Contact.findByPk(id);
   if (!contact) return null;
 
-  await Contact.destroy({ where: { id } });
+  await Contact.destroy({where: {id}});
   return contact;
 };
 
